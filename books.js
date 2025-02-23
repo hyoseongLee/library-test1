@@ -36,7 +36,7 @@ app.get("/book/:id", (req, res) => {
 
   const book = db.get(id);
   if (book == undefined) {
-    res.json({
+    res.status(404).json({
       message: "찾을 수 없는 정보입니다.",
     });
   } else {
@@ -52,7 +52,7 @@ app.get("/books", (req, res) => {
 app.use(express.json());
 app.post('/books', (req, res) => {
   db.set(id++, req.body);
-  res.json({
+  res.status(201).json({
     message: `${req.body.bookTitle} 책을 고르셨군요. 독서를 응원합니다!`
   });
 });
@@ -64,7 +64,7 @@ app.delete('/books/:id', (req, res) => {
   const bookToDelete = db.get(id);
 
   if (bookToDelete === undefined) {
-    return res.json({
+    return res.status(400).json({
       message: `요청하신 ${id}번 책은 존재하지 않습니다.`
     });
   }
@@ -98,7 +98,7 @@ app.put('/books/:id', (req, res) => {
 
   var book = db.get(id);
   if (book == undefined) {
-    res.json({
+    res.status(400).json({
       message: "책을 찾을 수 없습니다."
     });
   } else {
