@@ -6,7 +6,7 @@ const mariadb = require('./database/mariadb');
 router.use(express.json())
  
 router
-.route('/')
+.route('/registerMembers')
 
 .post((req,res)=> {
     const {email, password} = req.body;
