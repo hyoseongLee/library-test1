@@ -1,16 +1,19 @@
 const express = require("express");
 const app = express();
-const mainBooksRouter = require("./routes/mainBooks");
-const MembersRouter = require("./routes/registerMembers");
+const BooksRouter = require("./routes/Books");
+const CategoryRouter = require("./routes/Category");
+const MembersRouter = require("./routes/Members");
 const likesRouter = require("./routes/likes");
 const ordersRouter = require('./routes/orders');
-const cartsRouter = require('./routes/carts');
+const cartsRouter = require('./routes/cartItems');
+const dotenv = require('dotenv');
+dotenv.config();
 
-app.listen(1234);
+app.listen(process.env.PORT);
 
-
-app.use("/mainBooks", mainBooksRouter);
-app.use("/registerMembers", MembersRouter);
+app.use("/Books", BooksRouter);
+app.use("/Category",CategoryRouter)
+app.use("/Members", MembersRouter);
 app.use("/likes", likesRouter);
 app.use("/orders", ordersRouter);
-app.use("/carts", cartsRouter);
+app.use("/cartItems", cartsRouter);
