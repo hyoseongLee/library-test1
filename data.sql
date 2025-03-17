@@ -38,19 +38,19 @@ SELECT * FROM Books LEFT JOIN category ON Books.category_id = category.id WHERE 
 
 
 // 좋아요 추가
-INSERT INTO likes (user_id, liked_Book_id) VALUES (1, 1);
-INSERT INTO likes (user_id, liked_Book_id) VALUES (1, 2);
-INSERT INTO likes (user_id, liked_Book_id) VALUES (1, 3);
-INSERT INTO likes (user_id, liked_Book_id) VALUES (3, 1);
-INSERT INTO likes (user_id, liked_Book_id) VALUES (4, 4);
-INSERT INTO likes (user_id, liked_Book_id) VALUES (2, 1);
-INSERT INTO likes (user_id, liked_Book_id) VALUES (2, 2);
-INSERT INTO likes (user_id, liked_Book_id) VALUES (2, 3);
-INSERT INTO likes (user_id, liked_Book_id) VALUES (2, 5);
+INSERT INTO likes (Member_id, liked_Book_id) VALUES (1, 1);
+INSERT INTO likes (Member_id, liked_Book_id) VALUES (1, 2);
+INSERT INTO likes (Member_id, liked_Book_id) VALUES (1, 3);
+INSERT INTO likes (Member_id, liked_Book_id) VALUES (3, 1);
+INSERT INTO likes (Member_id, liked_Book_id) VALUES (4, 4);
+INSERT INTO likes (Member_id, liked_Book_id) VALUES (2, 1);
+INSERT INTO likes (Member_id, liked_Book_id) VALUES (2, 2);
+INSERT INTO likes (Member_id, liked_Book_id) VALUES (2, 3);
+INSERT INTO likes (Member_id, liked_Book_id) VALUES (2, 5);
 
 
 // 좋아요 삭제
-DELETE FROM likes WHERE user_id = 1 AND liked_Book_id = 3;
+DELETE FROM likes WHERE Member_id = 1 AND liked_Book_id = 3;
 
 // 장바구니 담기
 INSERT INTO cartItems (Book_id, quantity, user_id) VALUES (1, 1, 1);
@@ -90,6 +90,18 @@ SELECT last_insert_id();
 // 결제된 도서 장바구니 삭제
 DELETE FROM cartItems WHERE id IN (1,2,3); 
 
-// 조인 활용법 (해당 카테고리만 나옴옴)
+// 조인 활용법 (해당 카테고리만 나옴)
 SELECT * FROM Books LEFT
 Join category On Books.category_id = category_id where Books.id = 2;
+
+// 좋아요 갯수를 보여주는 코드
+select count(*) from likes WHERE liekd_book_id=9
+
+// 좋아요 갯수가 포함된 Books
+SELECT *, (SELECT count(*) FROM likes WHERE Books.id = liked_book_id)AS likes FROM Books;
+
+// 개별조회 시 멤버 좋아요 유무
+SELECT *, (SELECT count(*) FROM likes WHERE Member_id = 1) AND liked_Book_id = 1 
+SELECT *, (SELECT EXISTS (SELECT FROM likes WHERE Member_id =1 ) AND liked_Book_id=1) 
+AS liked FROM Books WHERE Books.id = 1;
+

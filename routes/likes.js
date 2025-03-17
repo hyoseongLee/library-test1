@@ -1,20 +1,11 @@
 // Express 모듈셋팅
 const express = require("express");
 const router = express.Router();
-const mariadb = require('../database/mariadb');
+const { addLike, removeLike } = require("../controller/likedController");
 
-router.use(express.json())
+router.use(express.json());
 
-router
-.post ('/likes/:id',(req,res)=> {
-      
-})
-
-.delete ('/likes/:id',(req,res)=> {
-      
-})
-
-
-
+router.post("/:id", addLike)
+router.delete("/:id", removeLike);
 
 module.exports = router;

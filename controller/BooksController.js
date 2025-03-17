@@ -8,7 +8,7 @@ dotenv.config()
 const allBooks = (req,res) => {
     let {category_id, news,limit,currentPage } = req.query;
     let offset = limit * (currentPage-1);
-    let sql = "SELECT * FROM Books";
+    let sql = "SELECT *, (SELECT count(*) FROM likes WHERE Books.id = liked_book_id)AS likes FROM Books";
     let values = [];
     if(category_id && news) {
           sql += " WHERE category_id=? AND pub_date BETWEEN DATE_SUB(NOW(), INTERVAL 1 MONTH) AND NOW()";
@@ -37,11 +37,18 @@ mariadb.query(sql,values,(err,results)=> {
 
 
 const BooksDetail = (req,res) => {
-    let {id} = req.params;
+    let {Member_id} = req.body;
+    let Book_id = req.params.id;
     
-    let sql = `SELECT * FROM Books LEFT
-Join category On Books.category_id = category_id where Books.id = ?;`;
-    mariadb.query(sql,id,(err,results)=> {
+    let sql = `SELECT *,
+        (SELECT count(*) FROM likes WHERE liked_book_id=Books.id) AS likes,
+        (SELECT EXISTS (SELECT * FROM likes WHERE Member_id=? AND liked_book_id=?)) AS liked
+    FROM Books LEFT
+Join category ON Books.category_id = category.category_id where Books.id = ?;`;
+let values = [Member_id,Book_id,Book_id]
+
+    mariadb.query(sql,values,
+        (err,results)=> {
         if(err) {
             console.log(err)
             return res.status(StatusCodes.BAD_REQUEST).end()
