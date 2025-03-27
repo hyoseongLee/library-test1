@@ -73,15 +73,16 @@ INSERT INTO delivery (address, receiver, contact) VALUES ("서울시 중구", "�
 const delivery_id = SELECT max(id) FROM delivery;
 
 // 주문 정보 입력
-INSERT INTO orders (Book_title, total_quantity, total_price, user_id, delivery_id) 
-VALUES ("어린왕자들", 3, 60000, 1, delivery_id);
+INSERT INTO orders (book_title, total_quantity, total_price, Member_id, delivery_id) 
+VALUES ("어린왕자들", 3, 60000, 1, delivary_id);
 const order_id = SELECT max(id) FROM orders;
 
 // 주문 상세 목록 입력
-INSERT INTO orderedBook (order_id, Book_id, quantity)
-VALUES (order_id, 1, 1);
-INSERT INTO orderedBook (order_id, Book_id, quantity)
-VALUES (order_id, 3, 2);
+INSERT INTO orderedBook (ordered_id, book_id, quantity)
+VALUES (1, 1, 1);
+
+INSERT INTO orderedBook (ordered_id, book_id, quantity)
+VALUES (1, 3, 2);
 
 
 SELECT max(id) FROM Bookshop.orderedBook;

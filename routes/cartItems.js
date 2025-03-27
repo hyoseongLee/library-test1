@@ -2,36 +2,18 @@
 const express = require("express");
 const router = express.Router();
 const mariadb = require('../database/mariadb');
- 
+const {addToCart ,getCartItem ,removeCartitem
+} = require("../controller/cartItemController")
+
 router.use(express.json())
  
-router
-.route('/cartItems')
 //장바구니 담기
-router
-.post('/cartItems',(req,res)=> {
-    const {bookId,count} = req.body;
-    const query = "insert into carts (bookId,count) value (?,?)"
-    mariadb.query(query,[bookId,count],(err,Result)=> {
-    })
-    res ({
-        msg : "성공하셔쓰다"
-    })
-})
+router.post('/',addToCart)
 
-// 장바구니 조회
-router
-.get('/cartItems',(req,res)=> {
-    const {bookId,title,summary,count,price} = req.body;  
-    const query = "select * from carts"
-    mariadb.query(query,[bookId,title,summary,count,price],(err,Result)=> {
-    })
-})
+// 장바구니 조회/선택된 아이템 목록 조회(예상)
+router.get('/',getCartItem)
 
 //장바구니 도서 삭제
-router
-.delete ('/carts/:id',(req,res)=> {
-    
-})
+router.delete ('/:id',removeCartitem)
 
 module.exports = router;
